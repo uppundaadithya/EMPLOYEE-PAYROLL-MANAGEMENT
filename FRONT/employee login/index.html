@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Employee Login</title>
+		<link rel="stylesheet" href="../style.css" />
+	</head>
+	<body>
+		<div class="page-bg">
+		<main class="container">
+			<div class="app-header">
+				<div class="brand">
+					<div class="logo">EP</div>
+					<div>
+						<h1>Employee Portal</h1>
+						<p class="muted">Sign in to view your payslips and salary history</p>
+					</div>
+					</div>
+				</div>
+
+			<h1>Employee Login</h1>
+
+			<form id="loginForm">
+				<div class="field">
+					<span class="icon">👤</span>
+					<input id="empId" name="empId" type="text" class="compact" required placeholder=" " />
+					<label for="empId">Employee ID</label>
+				</div>
+				<div class="field">
+					<span class="icon">🔒</span>
+					<input id="password" name="password" type="password" class="compact" required placeholder=" " />
+					<label for="password">Password</label>
+				</div>
+				<div class="actions">
+					<button type="submit">Sign In</button>
+				</div>
+			</form>
+			<p id="loginMsg" style="color:crimson"></p>
+			<p class="hint">Demo accounts: <span class="pill">emp001</span> <span class="pill">emp002</span> (use any password)</p>
+
+			<hr style="margin:2em 0;">
+			<h2>Create Employee Account</h2>
+			<form id="registerForm">
+				<div class="field">
+					<span class="icon">👤</span>
+					<input id="reg_id" name="id" type="text" class="compact" required placeholder=" " />
+					<label for="reg_id">Employee ID</label>
+				</div>
+				<div class="field">
+					<span class="icon">🧾</span>
+					<input id="reg_name" name="name" placeholder=" " />
+					<label for="reg_name">Full Name</label>
+				</div>
+				<div class="field">
+					<span class="icon">✉️</span>
+					<input id="reg_email" name="email" type="email" placeholder=" " />
+					<label for="reg_email">Email</label>
+				</div>
+				<div class="field">
+					<span class="icon">🔒</span>
+					<input id="reg_password" name="password" type="password" class="compact" required placeholder=" " />
+					<label for="reg_password">Password</label>
+				</div>
+				<div class="field">
+					<span class="icon">🔒</span>
+					<input id="reg_confirm" name="confirm" type="password" class="compact" required placeholder=" " />
+					<label for="reg_confirm">Confirm Password</label>
+				</div>
+				<!-- Basic Salary field removed -->
+				<button type="submit">Create Account</button>
+			</form>
+			<p id="regMsg" style="color:crimson"></p>
+		</main>
+		</div>
+
+		<script type="module">
+			import { createEmployee, login } from './employee.js';
+
+			document.getElementById('loginForm').addEventListener('submit', async function (e) {
+				e.preventDefault();
+				const id = document.getElementById('empId').value.trim();
+				const pwd = document.getElementById('password').value;
+				const msg = document.getElementById('loginMsg');
+				msg.textContent = '';
+				try {
+					const ok = await login(id, pwd);
+					if (ok) {
+						window.location = 'profile.html';
+					} else {
+						msg.textContent = 'Invalid employee ID or password';
+					}
+				} catch (e) {
+					msg.textContent = 'Login error';
+				}
+			});
+
+			// Registration form logic
+			document.getElementById('registerForm').addEventListener('submit', async function (e) {
+				e.preventDefault();
+				const id = document.getElementById('reg_id').value.trim();
+				const name = document.getElementById('reg_name').value.trim();
+				const email = document.getElementById('reg_email').value.trim();
+				const password = document.getElementById('reg_password').value;
+				const confirm = document.getElementById('reg_confirm').value;
+				const msg = document.getElementById('regMsg');
+				if (password !== confirm) {
+					msg.style.color = 'crimson';
+					msg.textContent = 'Passwords do not match';
+					return;
+				}
+				if (!/^[a-zA-Z0-9_\-]{3,20}$/.test(id)) {
+					msg.style.color = 'crimson';
+					msg.textContent = 'Employee ID must be 3-20 characters (letters, numbers, _ or -)';
+					return;
+				}
+				const payload = {
+					id,
+					name,
+					email,
+					password,
+					salary: { hra: 0, allowances: 0, deductions: 0 },
+					history: []
+				};
+				try {
+					const res = await createEmployee(payload);
+					if (res && res.ok) {
+						msg.style.color = 'green';
+						msg.textContent = 'Account created — you can now log in!';
+						setTimeout(() => {
+							document.getElementById('registerForm').reset();
+							msg.textContent = '';
+						}, 1200);
+					} else {
+						msg.style.color = 'crimson';
+						msg.textContent = 'Error: ' + (res && res.reason ? res.reason : 'Could not create account');
+					}
+				} catch (e) {
+					msg.style.color = 'crimson';
+					msg.textContent = 'Registration error: ' + e.message;
+				}
+			});
+		</script>
+	</body>
+</html>

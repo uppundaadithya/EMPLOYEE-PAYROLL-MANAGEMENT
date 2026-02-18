@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register Employee</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="page-bg">
+    <main class="container">
+      <div class="app-header">
+        <div class="brand">
+          <div class="logo">EP</div>
+          <div>
+            <h1>Create Account</h1>
+            <p class="muted">Register yourself to access payslips</p>
+          </div>
+        </div>
+        <nav class="container">
+          <a href="index.html">Login</a>
+        </nav>
+      </div>
+
+      <h1>Create Employee Account</h1>
+      <form id="registerForm">
+        <div class="field">
+          <span class="icon">👤</span>
+          <input id="id" name="id" type="text" class="compact" required placeholder=" " />
+          <label for="id">Employee ID</label>
+        </div>
+
+        <div class="field">
+          <span class="icon">🧾</span>
+          <input id="name" name="name" placeholder=" " />
+          <label for="name">Full Name</label>
+        </div>
+
+        <div class="field">
+          <span class="icon">✉️</span>
+          <input id="email" name="email" type="email" placeholder=" " />
+          <label for="email">Email</label>
+        </div>
+
+        <div class="field">
+          <span class="icon">🔒</span>
+          <input id="password" name="password" type="password" class="compact" required placeholder=" " />
+          <label for="password">Password</label>
+        </div>
+
+        <div class="field">
+          <span class="icon">🔒</span>
+          <input id="confirm" name="confirm" type="password" class="compact" required placeholder=" " />
+          <label for="confirm">Confirm Password</label>
+        </div>
+
+        <label for="basic">Basic Salary</label>
+        <input id="basic" name="basic" type="number" value="0" />
+
+        <button type="submit">Create Account</button>
+      </form>
+      <p id="regMsg" style="color:crimson"></p>
+      <p class="hint"><a href="index.html">Back to login</a></p>
+    </main>
+    </div>
+
+      <!-- Firebase App (the core Firebase SDK) -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+      <!-- Firebase Realtime Database -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+      <script src="firebase-init.js"></script>
+      <script src="employee.js"></script>
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const id = document.getElementById('id').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirm').value;
+        const basic = Number(document.getElementById('basic').value) || 0;
+        const msg = document.getElementById('regMsg');
+        if (password !== confirm) {
+          msg.style.color = 'crimson';
+          msg.textContent = 'Passwords do not match';
+          return;
+        }
+        if (!/^[a-zA-Z0-9_\-]{3,20}$/.test(id)) {
+          msg.style.color = 'crimson';
+          msg.textContent = 'Employee ID must be 3-20 characters (letters, numbers, _ or -)';
+          return;
+        }
+        const payload = {
+          id,
+          name,
+          email,
+          password,
+          salary: { basic: basic, hra: 0, allowances: 0, deductions: 0 },
+          history: []
+        };
+        const res = await createEmployee(payload);
+        if (res && res.ok) {
+          msg.style.color = 'green';
+          msg.textContent = 'Account created — redirecting to profile...';
+          setTimeout(() => (window.location = 'profile.html'), 800);
+        } else {
+          msg.style.color = 'crimson';
+          msg.textContent = 'Error: ' + (res && res.reason ? res.reason : 'Could not create account');
+        }
+      });
+    </script>
+  </body>
+</html>

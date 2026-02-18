@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Salary Details</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="page-bg">
+    <main class="container">
+      <div class="app-header">
+        <div class="brand">
+          <div class="logo">EP</div>
+          <div>
+            <h1>Employee Portal</h1>
+            <p class="muted">Salary details & payslips</p>
+          </div>
+        </div>
+        <nav class="container">
+          <a href="profile.html">Profile</a>
+          <a href="salary.html">Salary</a>
+          <a href="history.html">History</a>
+          <a href="#" id="logoutLink">Sign out</a>
+        </nav>
+      </div>
+
+      <div id="salaryInfo"></div>
+      <div class="actions">
+        <button id="downloadPayslip">Download Payslip</button>
+        <button id="printPayslip" class="secondary">Print Payslip</button>
+      </div>
+    </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="employee.js"></script>
+    <script>
+      requireAuth();
+      renderSalary('salaryInfo');
+      document.getElementById('logoutLink').addEventListener('click', function (e) {
+        e.preventDefault();
+        logout();
+      });
+      document.getElementById('downloadPayslip').addEventListener('click', function () {
+        downloadPayslipPdfOrHtml();
+      });
+      document.getElementById('printPayslip').addEventListener('click', function () {
+        openPayslipPrint();
+      });
+    </script>
+  </body>
+</html>

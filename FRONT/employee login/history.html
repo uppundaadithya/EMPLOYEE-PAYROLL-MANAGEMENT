@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Salary History</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="page-bg">
+    <main class="container">
+      <div class="app-header">
+        <div class="brand">
+          <div class="logo">EP</div>
+          <div>
+            <h1>Employee Portal</h1>
+            <p class="muted">Salary history and past payslips</p>
+          </div>
+        </div>
+        <nav class="container">
+          <a href="profile.html">Profile</a>
+          <a href="salary.html">Salary</a>
+          <a href="history.html">History</a>
+          <a href="#" id="logoutLink">Sign out</a>
+        </nav>
+      </div>
+
+      <h2>Salary History</h2>
+      <table>
+        <thead>
+          <tr><th>Month</th><th>Gross</th><th>Net</th></tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </main>
+    </div>
+
+    <script src="employee.js"></script>
+    <script>
+      requireAuth();
+      renderHistory('historyBody');
+      document.getElementById('logoutLink').addEventListener('click', function (e) {
+        e.preventDefault();
+        logout();
+      });
+    </script>
+  </body>
+</html>

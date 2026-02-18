@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Employee Profile</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="page-bg">
+    <main class="container">
+      <div class="app-header">
+        <div class="brand">
+          <div class="logo">EP</div>
+          <div>
+            <h1>Employee Portal</h1>
+            <p class="muted">Access your profile and payslips</p>
+          </div>
+        </div>
+        <nav class="container">
+          <a href="profile.html">Profile</a>
+          <a href="salary.html">Salary</a>
+          <a href="history.html">History</a>
+          <a href="#" id="logoutLink">Sign out</a>
+        </nav>
+      </div>
+
+      <div id="profileInfo"></div>
+      <script>
+        // enhance profile display after render
+        (function(){
+          const el = document.getElementById('profileInfo');
+          if(!el) return;
+          // when profile rendered, convert into a nice card
+          const observer = new MutationObserver(()=>{
+            const html = el.innerHTML;
+            if(!html) return;
+            el.innerHTML = `<div class="profile-card"><div class="avatar">${(html.match(/<h2>([^<]+)<\/h2>/)||[])[1]||'E'}</div><div>${html}</div></div>`;
+            observer.disconnect();
+          });
+          observer.observe(el,{childList:true,subtree:true});
+        })();
+      </script>
+    </main>
+    </div>
+
+    <script src="employee.js"></script>
+    <script>
+      requireAuth();
+      renderProfile('profileInfo');
+      document.getElementById('logoutLink').addEventListener('click', function (e) {
+        e.preventDefault();
+        logout();
+      });
+    </script>
+  </body>
+</html>
