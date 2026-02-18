@@ -1,0 +1,109 @@
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: radial-gradient(circle at top left, #1a1a4d, #0b0b31); /* Deep gradient */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    
+}
+*{
+    list-style: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.05); /* Very subtle white */
+    backdrop-filter: blur(15px); /* The "Glass" effect */
+    -webkit-backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    width: 420px;
+}
+
+h1 {
+    margin-bottom: 25px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    transition: 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #007BFF;
+}
+
+button {
+    padding: 12px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+#employee-list {
+    margin-top: 30px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#employee-list li {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+}
+
+#employee-list li:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+#employee-list button {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ff4d5e;
+    border: 1px solid rgba(220, 53, 69, 0.4);
+    font-size: 12px;
+    padding: 5px 12px;
+}
+
+#employee-list button:hover {
+    background: #dc3545;
+    color: white;
+    transform: none;
+}

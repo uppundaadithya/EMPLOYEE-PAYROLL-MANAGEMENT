@@ -1,0 +1,66 @@
+/* Style for the login container */
+body{
+    background-color: #0c0844;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;             
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh
+}
+.login-container {
+    background-color: #ffe9e92f;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100%;
+}
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 89%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #cccccc15;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+    background-color: #efefef14;
+    outline: #5a5fef;
+}
+.login-container input[type="text"]::placeholder,
+.login-container input[type="password"]::placeholder {
+    color: #d6d8fe8a;
+}
+h1 {
+    color: #a9adff;
+    margin-bottom: 20px;
+}
+
+.login-container button {
+    width: 80%;
+    padding: 10px;
+    background-color: #232664;
+    color: rgb(255, 200, 200);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+.button:hover {
+    background-color: #7d84fe;
+    color: rgb(255, 255, 255);
+}
+#login-message {
+    text-align: center;
+    margin-top: 10px;
+}
